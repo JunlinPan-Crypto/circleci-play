@@ -12,6 +12,12 @@ jobs:
         type: string
     steps:
       - run: echo << parameters.message >>
+  my_deploy_job:
+    docker:
+      - image: cimg/base:2022.03
+    steps:
+      - run: echo "Deploy"
+
 
 workflows:
   my-workflow:
@@ -19,9 +25,9 @@ workflows:
       - print-a-message:
           message: Hello!
       - slack/on-hold:
-        context: slack-secrets
-        requires:
-          - print-a-message
+          context: slack-secrets
+          requires:
+            - print-a-message
       - pause_workflow:
           requires:
             - print-a-message
